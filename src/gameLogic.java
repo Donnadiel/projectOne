@@ -159,6 +159,10 @@ public class gameLogic {
 
     }
 
+    public void testGit(){
+        System.out.println("test");
+
+    }
 
     public void victoryScreen() {
 
