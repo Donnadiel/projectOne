@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.Scanner;
 
 public class gameLogic {
 
@@ -34,10 +35,12 @@ public class gameLogic {
         for (int row = 0; row < 4; row++) {
 
             for (int column = 0; column < 4; column++)
+
                 System.out.print(board[row][column] + " ");
 
             System.out.print("\n");
         }
+
         determineMove();
     }
 
@@ -52,17 +55,17 @@ public class gameLogic {
         switch (posEmpty / 4) {
             case 0:
                 down = 1;
-                newDownVal=board[(posEmpty / 4)+1][(posEmpty % 4)];
+                newDownVal=board[(posEmpty+4)/4][(posEmpty % 4)];
                 break;
             case 3:
                 up = 1;
-                newUpVal=board[(posEmpty / 4)-1][(posEmpty % 4)];
+                newUpVal=board[(posEmpty-4)/4][(posEmpty % 4)];
                 break;
             default:
                 up = 1;
                 down = 1;
-                newDownVal=board[(posEmpty / 4)-1][(posEmpty % 4)];
-                newUpVal=board[(posEmpty / 4)+1][(posEmpty % 4)];
+                newDownVal=board[(posEmpty+4)/4][(posEmpty % 4)];
+                newUpVal=board[(posEmpty-4)/4][(posEmpty % 4)];
                 break;
         }
 
@@ -88,68 +91,87 @@ public class gameLogic {
         if (up == 1) {
             message += "W: Arriba válido, el valor de arriba es "+newUpVal+".\n";
         } else {
-            message += "∅  Arriba invàlido.\n";
+            message += "∅: Arriba invàlido.\n";
         }
         if (down == 1) {
             message += "S: Abajo válido, el valor de abajo es "+newDownVal+".\n";
         } else {
-            message += "∅  Abajo inválido.\n";
+            message += "∅: Abajo inválido.\n";
         }
         if (left == 1) {
             message += "A: Izquierda válido, el valor a la izquierda es "+newLeftVal+".\n";
         } else {
-            message += "∅  Izquierda inválido.\n";
+            message += "∅: Izquierda inválido.\n";
         }
         if (right == 1) {
             message += "D: Derecha válido, el valor de la derecha es "+newRightVal+".\n";
         } else {
-            message += "∅  Derecha invalido.\n";
+            message += "∅: Derecha invalido.\n";
         }
 
         System.out.println("\n"+message);
 
-
-        String option = JOptionPane.showInputDialog("Ingrese una de las opciones.");
-        option=option.toLowerCase();
+        Scanner sc = new Scanner(System.in);
+        boolean tag = false;
         do {
+            System.out.println("Ingrese una de las opciones.");
+            String option =sc.next();
+            option=option.toLowerCase();
             switch (option) {
                 case "w":
                     if(up==1) {
+
+                        board[posEmpty/4][posEmpty%4]=newUpVal;
+                        board[(posEmpty/4)-1][posEmpty%4]=0;
+                        posEmpty=posEmpty-4;
                         movements += 1;
+                        tag=true;
                     }else{
-                        option = JOptionPane.showInputDialog("Jugada no vállida,ingrese otra");
+                        System.out.println("Jugada no vállida");
                     }
                     break;
                 case "s":
                     if(down==1) {
+                        board[posEmpty/4][posEmpty%4]=newDownVal;
+                        board[(posEmpty/4)+1][posEmpty%4]=0;
+                        posEmpty=posEmpty+4;
                         movements += 1;
+                        tag=true;
                     }else{
-                        option = JOptionPane.showInputDialog("Jugada no vállida,ingrese otra");
+                        System.out.println("Jugada no vállida");
                     }
                     break;
                 case "a":
                     if(left==1) {
+                        board[posEmpty/4][posEmpty%4]=newLeftVal;
+                        board[posEmpty/4][(posEmpty%4)-1]=0;
+                        posEmpty=posEmpty-1;
                         movements += 1;
+                        tag=true;
                     }else{
-                        option = JOptionPane.showInputDialog("Jugada no vállida,ingrese otra");
+                        System.out.println("Jugada no vállida");
                     }
                     break;
                 case "d":
                     if(right==1) {
+                        board[posEmpty/4][posEmpty%4]=newRightVal;
+                        board[posEmpty/4][(posEmpty%4)+1]=0;
+                        posEmpty=posEmpty+1;
                         movements += 1;
+                        tag=true;
                     }else {
-                        option = JOptionPane.showInputDialog("Jugada no vállida,ingrese otra");
+                        System.out.println("Jugada no vállida");
                     }
                     break;
                 case "wswsadadba":
                     board=goal;
+                    tag=true;
                     break;
                 default:
-                    option = JOptionPane.showInputDialog("No es una opcion,ingrese una de las opciones.");
+                    System.out.println("No es una opción válida");
                     break;
             }
-        }while (option!="w"||option!="a"||option!="s"||option!="d"||option!="wswsadadba");
-
+        }while (!tag);
 
         if (board == goal) {
             victoryScreen();
@@ -158,7 +180,6 @@ public class gameLogic {
         }
 
     }
-
 
     public void victoryScreen() {
 
@@ -170,7 +191,7 @@ public class gameLogic {
             System.out.print("\n");
 
         }
-        System.out.println("Felicidades,se la ganó.");
+        System.out.println("Felicidades,ha ganado.");
         System.out.println("Movimientos utilizados:" + movements);
     }
 }
