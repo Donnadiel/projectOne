@@ -38,6 +38,9 @@ public class gameLogic {
 
             System.out.print("\n");
         }
+
+        System.out.println("El valor de posEmpty es "+posEmpty);
+
         determineMove();
     }
 
@@ -109,47 +112,55 @@ public class gameLogic {
         System.out.println("\n"+message);
 
 
-        String option = JOptionPane.showInputDialog("Ingrese una de las opciones.");
-        option=option.toLowerCase();
+        boolean tag = false;
         do {
+            String option = JOptionPane.showInputDialog("Ingrese una de las opciones.");
+            option=option.toLowerCase();
             switch (option) {
                 case "w":
                     if(up==1) {
+
                         movements += 1;
+                        tag=true;
                     }else{
-                        option = JOptionPane.showInputDialog("Jugada no vállida,ingrese otra");
+                        JOptionPane.showMessageDialog(null ,"Jugada no vállida");
                     }
                     break;
                 case "s":
                     if(down==1) {
+
                         movements += 1;
+                        tag=true;
                     }else{
-                        option = JOptionPane.showInputDialog("Jugada no vállida,ingrese otra");
+                        JOptionPane.showMessageDialog(null ,"Jugada no vállida");
                     }
                     break;
                 case "a":
                     if(left==1) {
+
                         movements += 1;
+                        tag=true;
                     }else{
-                        option = JOptionPane.showInputDialog("Jugada no vállida,ingrese otra");
+                        JOptionPane.showMessageDialog(null ,"Jugada no vállida");
                     }
                     break;
                 case "d":
                     if(right==1) {
                         movements += 1;
+                        tag=true;
                     }else {
-                        option = JOptionPane.showInputDialog("Jugada no vállida,ingrese otra");
+                        JOptionPane.showMessageDialog(null ,"Jugada no vállida");
                     }
                     break;
-                case "wswsadadba":
+                case "win":
                     board=goal;
+                    tag=true;
                     break;
                 default:
-                    option = JOptionPane.showInputDialog("No es una opcion,ingrese una de las opciones.");
+                    JOptionPane.showMessageDialog(null,"No es una opción válida.");
                     break;
             }
-        }while (option!="w"||option!="a"||option!="s"||option!="d"||option!="wswsadadba");
-
+        }while (!tag);
 
         if (board == goal) {
             victoryScreen();
@@ -158,7 +169,6 @@ public class gameLogic {
         }
 
     }
-
 
     public void victoryScreen() {
 
